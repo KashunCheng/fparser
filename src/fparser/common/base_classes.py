@@ -684,7 +684,7 @@ class Statement(metaclass=classes):
             return tab
         s = str(label)
         if isfix:
-            s = " " + s
+            s = s
         tab = tab[len(s) :]
         if not tab:
             tab = " "
@@ -697,7 +697,7 @@ class Statement(metaclass=classes):
     def asfix(self):
         lines = []
         for line in self.tofortran(isfix=True).split("\n"):
-            if len(line) > 72 and line[0] == " ":
+            if len(line) > 72:
                 lines.append(line[:72] + "&\n     &")
                 line = line[72:]
                 while len(line) > 66:
