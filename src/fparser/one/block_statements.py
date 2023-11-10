@@ -72,6 +72,7 @@ Fortran block statements.
 import logging
 import re
 import sys
+from copy import copy
 
 import fparser.one.statements as statements
 from fparser.one.statements import *
@@ -1360,7 +1361,17 @@ class Do(BeginStatement):
                 result = True
                 if isinstance(self.parent, Do) and label == self.parent.endlabel:
                     # the same item label may be used for different block ends
+                    new_label_ends_with = 10
+                    parent = self.parent
+                    while isinstance(parent, Do):
+                        new_label_ends_with -= 1
+                        parent_label = parent.endlabel
+                        parent = parent.parent
+                    self.endlabel = 10*parent_label+new_label_ends_with
+                    modified_item = copy(item)
+                    modified_item.label = self.endlabel
                     self.put_item(item)
+                    item = modified_item
         return BeginStatement.process_subitem(self, item) or result
 
     def get_classes(self):
