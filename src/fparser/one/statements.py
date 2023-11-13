@@ -2705,7 +2705,7 @@ class Comment(Statement):
         if self.is_blank:
             return ""
         if isfix:
-            tab = "C" + self.get_indent_tab(isfix=isfix)[1:]
+            tab = "C"
         else:
             tab = self.get_indent_tab(isfix=isfix) + "!"
         return tab + self.content
